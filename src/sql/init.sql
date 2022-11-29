@@ -1,0 +1,8 @@
+create table MEMBER
+(
+    ID       INTEGER auto_increment
+        primary key,
+    USERNAME CHARACTER VARYING(255),
+    NICKNAME CHARACTER VARYING(255),
+    PASSWORD CHARACTER VARYING(255)
+);
