@@ -6,3 +6,12 @@ create table MEMBER
     NICKNAME CHARACTER VARYING(255),
     PASSWORD CHARACTER VARYING(255)
 );
+
+create table BOARD
+(
+    ID       INTEGER auto_increment
+        primary key,
+    TITLE      CHARACTER VARYING(255),
+    CONTENT    CHARACTER VARYING(255),
+    CREATED_AT TIMESTAMP
+);
