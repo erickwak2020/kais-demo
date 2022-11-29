@@ -1,3 +1,9 @@
+# vue router 설치
+npm install vue-router@4
+
+# vuex install
+npm install vuex@next --save
+
 # front-end
 
 ## Project setup
