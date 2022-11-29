@@ -2,11 +2,14 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "com.github.node-gradle.node" version "3.5.0"
 }
 
 group = 'gov.mopas.kais'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+println "### project.projectDir: ${project.projectDir}"
 
 configurations {
     compileOnly {
@@ -28,6 +31,79 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
+node {
+    /**
+     * 특정 Node.js 버전을 다운로드 및 설치 할 지 여부
+     * true: 다운로드 및 설치
+     * false: 전역으로 설치된 Node.js 사용함.
+     */
+    download = true
+
+    /**
+     * download가 true일 경우에만 사용
+     * version에 명시한 버전으로 Node.js 다운로드 및 설치
+     * workDir에 설치됨
+     */
+    version = "18.11.0"
+
+    /**
+     * 사용할 npm 버전을 지정하면 npmWorkDir에 설치됨
+     * npm 버전을 지정하지 않으면 Node.js에 번들로 제공되는 npm 버전으로 사용됨
+     */
+    npmVersion = "8.19.2"
+
+    /**
+     * download가 true일 경우에만 사용
+     * Node.js 배포를 가져오기 위한 기본 URL
+     */
+    distBaseUrl = "https://nodejs.org/dist"
+    /**
+     * npmInstall 작업에 의해 실행되는 npm 명령
+     * 기본적으로 설치되지만 ci로 변경할 수 있음
+     */
+    npmInstallCommand = "install"
+
+    /**
+     * download가 true일 경우에만 사용
+     * Node.js가 압축 해제된 디렉토리
+     */
+    workDir = file("${project.projectDir}/.gradle/nodejs")
+
+    /**
+     * npm이 설치된 디렉토리 (특정 버전이 정의된 경우)
+     */
+    npmWorkDir = file("${project.projectDir}/.gradle/npm")
+
+    nodeProjectDir = file("${project.projectDir}/front-end")
+}
+
+/**
+ * vue-project를 build하기 위한 설정
+ * - node gradle 추가
+ */
+apply plugin: 'com.github.node-gradle.node'
+
+/**
+ * vue-project를 build하기 위한 설정
+ * - vue-project의 기존 빌드 결과물을 제거하기 위한 task
+ */
+task deleteVueBuildFiles(type: Delete) {
+    delete "src/main/resources/static/js", "src/main/resources/static/index.html"
+    //delete "src/main/resources/static/static", "src/main/resources/static/index.html", "${project.projectDir}/vue-project/node_modules"
+}
+
+task setUp(type: NpmTask) {
+    description = "Install Node.js Packages"
+    args = ['install']
+}
+
+task buildFrontEnd(type: NpmTask, dependsOn: setUp) {
+    description = "build Vue"
+    args = ['run', 'build']
+}
+
+processResources.dependsOn 'buildFrontEnd'
 
 tasks.named('test') {
     useJUnitPlatform()
