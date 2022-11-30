@@ -1,7 +1,7 @@
-package gov.mopas.kais.board;
+package gov.mois.kais.board;
 
-import gov.mopas.kais.board.model.Board;
-import gov.mopas.kais.board.service.BoardService;
+import gov.mois.kais.board.model.Board;
+import gov.mois.kais.board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

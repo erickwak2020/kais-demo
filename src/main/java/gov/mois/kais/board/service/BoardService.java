@@ -1,7 +1,7 @@
-package gov.mopas.kais.board.service;
+package gov.mois.kais.board.service;
 
-import gov.mopas.kais.board.dao.BoardMapper;
-import gov.mopas.kais.board.model.Board;
+import gov.mois.kais.board.dao.BoardMapper;
+import gov.mois.kais.board.model.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

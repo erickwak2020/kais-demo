@@ -1,4 +1,4 @@
-package gov.mopas.kais.board.model;
+package gov.mois.kais.board.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

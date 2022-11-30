@@ -1,7 +1,6 @@
-package gov.mopas.kais.board.dao;
+package gov.mois.kais.board.dao;
 
-import gov.mopas.kais.board.model.Board;
-import gov.mopas.kais.member.model.Member;
+import gov.mois.kais.board.model.Board;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

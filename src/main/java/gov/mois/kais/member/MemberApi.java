@@ -1,7 +1,7 @@
-package gov.mopas.kais.member;
+package gov.mois.kais.member;
 
-import gov.mopas.kais.member.dao.MemberMapper;
-import gov.mopas.kais.member.model.Member;
+import gov.mois.kais.member.dao.MemberMapper;
+import gov.mois.kais.member.model.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

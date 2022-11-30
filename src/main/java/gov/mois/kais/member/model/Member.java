@@ -1,4 +1,4 @@
-package gov.mopas.kais.member.model;
+package gov.mois.kais.member.model;
 import lombok.Getter;
 import lombok.Setter;
 
