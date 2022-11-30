@@ -17,4 +17,3 @@ mybatis:
 springdoc:
   swagger-ui:
     path: /api/docs
-    version: v1.0.1
