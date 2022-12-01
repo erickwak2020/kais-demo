@@ -1,6 +1,8 @@
 server:
   port: 9090
 spring:
+  profiles:
+    active: local
   datasource:
     hikari:
       driver-class-name: org.h2.Driver
@@ -17,3 +19,6 @@ mybatis:
 springdoc:
   swagger-ui:
     path: /api/docs
+
+common: default-common
+test: default-test
