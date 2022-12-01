@@ -3,12 +3,6 @@ server:
 spring:
   profiles:
     active: local
-  datasource:
-    hikari:
-      driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:tcp://localhost/~/vue
-      username: sa
-      password: 1
 
 mybatis:
   #config-location: classpath:mybatis/mybatis-config.xml
