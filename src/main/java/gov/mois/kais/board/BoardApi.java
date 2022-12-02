@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/boards")
+@Slf4j
 public class BoardApi {
 
     private final BoardService boardService;
@@ -40,6 +43,8 @@ public class BoardApi {
     public ResponseEntity<BaseResponseEntity<Board>> addBoard(
             @Validated @RequestBody BoardCreateRequestDto boardCreateRequestDto) {
         Board board = boardService.saveBoard(boardCreateRequestDto);
+
+        log.info("addBoard=== ");
         return BaseResponseEntity.ok(board);
     }
 

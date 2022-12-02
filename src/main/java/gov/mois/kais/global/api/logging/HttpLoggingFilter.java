@@ -39,7 +39,6 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
 
     protected void doFilterWrapped(RequestWrapper request, ContentCachingResponseWrapper response, FilterChain filterChain) throws ServletException, IOException {
         String traceId = MDC.get("traceId");
-
         try {
             logRequest(request);
             MediaType mediaType = MediaType.valueOf(request.getContentType() == null ? "application/json" : request.getContentType());
@@ -60,8 +59,7 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
 
     private static void logRequest(RequestWrapper request) throws IOException {
         String queryString = request.getQueryString();
-        log.info("[{}] Request : {} uri=[{}] content-type=[{}]",
-                MDC.get("traceId"),
+        log.info("Request : {} uri=[{}] content-type=[{}]",
                 request.getMethod(),
                 queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString,
                 request.getContentType()
@@ -80,7 +78,7 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
             byte[] content = StreamUtils.copyToByteArray(inputStream);
             if (content.length > 0) {
                 String contentString = new String(content);
-                log.info("[{}] {} Payload: {}", MDC.get("traceId"), prefix, contentString);
+                log.info("{} Payload: {}", prefix, contentString);
             }
         } else {
             log.info("{} Payload: Binary Content", prefix);
