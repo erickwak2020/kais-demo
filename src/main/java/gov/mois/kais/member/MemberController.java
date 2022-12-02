@@ -1,5 +1,6 @@
 package gov.mois.kais.member;
 
+import gov.mois.kais.global.api.common.BaseResponseEntity;
 import gov.mois.kais.member.dao.MemberMapper;
 import gov.mois.kais.member.model.Member;
 import lombok.RequiredArgsConstructor;
@@ -13,23 +14,14 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
-public class MemberApi {
+public class MemberController {
 
     private final MemberMapper memberMapper;
 
     @GetMapping("")
-    public ResponseEntity<List<Member>> members() {
+    public ResponseEntity<BaseResponseEntity<List<Member>>> members() {
         List<Member> members = memberMapper.findAll();
-        return ResponseEntity.ok(members);
+        return BaseResponseEntity.ok(members);
     }
 
-    @GetMapping("/save/dummy")
-    public ResponseEntity<Member> addDummyMember() {
-        Member member = new Member();
-        member.setUsername("test1");
-        member.setPassword("1234");
-        member.setNickname("test 1");
-        memberMapper.save(member);
-        return ResponseEntity.ok(member);
-    }
 }

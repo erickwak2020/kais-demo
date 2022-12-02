@@ -1,0 +1,17 @@
+package gov.mois.kais.global.api.error;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public enum ErrorCode {
+
+    NOT_FOUND(404,"COMMON-ERR-404","PAGE NOT FOUND"),
+    INTER_SERVER_ERROR(500,"COMMON-ERR-500","INTER SERVER ERROR"),
+    MEMBER_API_ERROR(401,"MEMBER-ERR-400","MEMBER ERROR");
+
+    private final int status;
+    private final String errorCode;
+    private final String message;
+}

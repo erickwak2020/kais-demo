@@ -3,6 +3,12 @@ server:
 spring:
   profiles:
     active: local
+  ## 404 error 처리시 필요
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
 
 mybatis:
   #config-location: classpath:mybatis/mybatis-config.xml

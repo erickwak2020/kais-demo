@@ -2,6 +2,7 @@ package gov.mois.kais.board;
 
 import gov.mois.kais.board.model.Board;
 import gov.mois.kais.board.service.BoardService;
+import gov.mois.kais.global.api.common.BaseResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -25,14 +26,20 @@ public class BoardApi {
 
     @Operation(summary = "게시물 목록 메서드", description = "게시물 목록 메서드입니다.")
     @GetMapping("")
-    public ResponseEntity<List<Board>> getBoards() {
-        return ResponseEntity.ok(boardService.getBoards());
+    public ResponseEntity<BaseResponseEntity<List<Board>>> getBoards() {
+        return BaseResponseEntity.ok(boardService.getBoards());
     }
 
     @Operation(summary = "게시물 조회 메서드", description = "게시물 조회 메서드입니다.")
     @Parameter(name = "id", description = "posts 의 id", in = ParameterIn.PATH)
     @GetMapping("/{id}")
-    public ResponseEntity<Board> getBoard(@PathVariable Long id) {
-        return ResponseEntity.ok(boardService.getBoard(id));
+    public ResponseEntity<BaseResponseEntity<Board>> getBoard(@PathVariable Long id) {
+        return BaseResponseEntity.ok(boardService.getBoard(id));
+    }
+
+    @GetMapping("/error")
+    public ResponseEntity<Object> errorTest() {
+        boardService.errorTest();
+        return ResponseEntity.ok(null);
     }
 }
