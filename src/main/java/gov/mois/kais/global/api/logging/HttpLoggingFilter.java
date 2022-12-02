@@ -1,5 +1,6 @@
 package gov.mois.kais.global.api.logging;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.MediaType;
@@ -20,7 +21,10 @@ import java.util.UUID;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class HttpLoggingFilter extends OncePerRequestFilter {
+
+    private final HttpLoggingService httpLoggingService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -34,10 +38,21 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
     }
 
     protected void doFilterWrapped(RequestWrapper request, ContentCachingResponseWrapper response, FilterChain filterChain) throws ServletException, IOException {
+        String traceId = MDC.get("traceId");
+
         try {
             logRequest(request);
+            MediaType mediaType = MediaType.valueOf(request.getContentType() == null ? "application/json" : request.getContentType());
+            if(isVisible(mediaType)) {
+                httpLoggingService.saveHttpRequestLog(traceId, request);
+            }
             filterChain.doFilter(request, response);
         } finally {
+            MediaType mediaType = MediaType.valueOf(response.getContentType() == null ? "application/json" : response.getContentType());
+            if(isVisible(mediaType)) {
+                httpLoggingService.saveHttpRequestLog(traceId, request);
+            }
+            httpLoggingService.saveHttpResponseLog(traceId, response);
             logResponse(response);
             response.copyBodyToResponse();
         }
@@ -45,7 +60,8 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
 
     private static void logRequest(RequestWrapper request) throws IOException {
         String queryString = request.getQueryString();
-        log.info("Request : {} uri=[{}] content-type=[{}]",
+        log.info("[{}] Request : {} uri=[{}] content-type=[{}]",
+                MDC.get("traceId"),
                 request.getMethod(),
                 queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString,
                 request.getContentType()
@@ -64,7 +80,7 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
             byte[] content = StreamUtils.copyToByteArray(inputStream);
             if (content.length > 0) {
                 String contentString = new String(content);
-                log.info("{} Payload: {}", prefix, contentString);
+                log.info("[{}] {} Payload: {}", MDC.get("traceId"), prefix, contentString);
             }
         } else {
             log.info("{} Payload: Binary Content", prefix);

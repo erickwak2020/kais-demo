@@ -1,5 +1,5 @@
 ###
-GET http://localhost:9090/api/member
+GET http://localhost:9090/api/members/
 
 ###
 GET  http://localhost:9090/api/boards/error
@@ -12,5 +12,6 @@ POST http://localhost:9090/api/boards
 Content-Type: application/json
 
 {
+  "title": "aaaa",
   "content": "test2222"
 }
