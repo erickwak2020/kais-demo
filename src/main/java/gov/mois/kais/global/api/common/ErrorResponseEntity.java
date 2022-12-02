@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /*
 {
@@ -25,8 +26,9 @@ public class ErrorResponseEntity {
     private LocalDateTime timestamp;
     private int status;
     private String message;
+    private Object details;
 
-    public static ResponseEntity<ErrorResponseEntity> of(final HttpStatus status){
+    public static ResponseEntity<ErrorResponseEntity> of(final HttpStatus status) {
         return of(status, status.getReasonPhrase());
     }
 
@@ -37,6 +39,16 @@ public class ErrorResponseEntity {
                 .timestamp(LocalDateTime.now())
                 .build();
         return ResponseEntity.status(status).body(errorResponseEntity);
+    }
+
+    public static ResponseEntity<ErrorResponseEntity> badRequest(Object object) {
+        ErrorResponseEntity errorResponseEntity = ErrorResponseEntity.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .timestamp(LocalDateTime.now())
+                .details(object)
+                .build();
+        return ResponseEntity.badRequest().body(errorResponseEntity);
     }
 
 }

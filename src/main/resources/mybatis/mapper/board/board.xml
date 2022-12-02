@@ -11,6 +11,11 @@
         select * from BOARD where ID = #{id}
     </select>
 
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into BOARD (TITLE, CONTENT, CREATED_AT)
+        values (#{title}, #{content}, #{createdAt});
+    </insert>
+
     <!--<insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into MEMBER (USERNAME, NICKNAME, PASSWORD)
         values (#{username}, #{password}, #{nickname});

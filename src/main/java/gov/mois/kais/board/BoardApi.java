@@ -1,5 +1,6 @@
 package gov.mois.kais.board;
 
+import gov.mois.kais.board.dto.BoardCreateRequestDto;
 import gov.mois.kais.board.model.Board;
 import gov.mois.kais.board.service.BoardService;
 import gov.mois.kais.global.api.common.BaseResponseEntity;
@@ -9,10 +10,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +34,13 @@ public class BoardApi {
     @GetMapping("/{id}")
     public ResponseEntity<BaseResponseEntity<Board>> getBoard(@PathVariable Long id) {
         return BaseResponseEntity.ok(boardService.getBoard(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<BaseResponseEntity<Board>> addBoard(
+            @Validated @RequestBody BoardCreateRequestDto boardCreateRequestDto) {
+        Board board = boardService.saveBoard(boardCreateRequestDto);
+        return BaseResponseEntity.ok(board);
     }
 
     @GetMapping("/error")

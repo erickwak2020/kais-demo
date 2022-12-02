@@ -10,7 +10,7 @@ public interface BoardMapper {
 
     List<Board> findAll();
 
-    void save(Board board);
+    int save(Board board);
 
     Board findById(Long id);
 }

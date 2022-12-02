@@ -1,6 +1,7 @@
 package gov.mois.kais.board.service;
 
 import gov.mois.kais.board.dao.BoardMapper;
+import gov.mois.kais.board.dto.BoardCreateRequestDto;
 import gov.mois.kais.board.model.Board;
 import gov.mois.kais.global.api.error.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,12 @@ public class BoardService {
         return boardMapper.findById(id);
     }
 
+    public Board saveBoard(BoardCreateRequestDto boardCreateRequestDto) {
+        Board newBoard = boardCreateRequestDto.toModel();
+        boardMapper.save(newBoard);
+        //newBoard.setId((long) boardId);
+        return newBoard;
+    }
     public void errorTest() {
         throw new BusinessException("error test parameter is required");
     }
